@@ -5,9 +5,9 @@ import static edu.uw.tcss.app.model.PropChangeEnabledShapeCreatorControls.PROPER
 
 import edu.uw.tcss.app.model.ShapeCreatorControls;
 import edu.uw.tcss.app.view.icons.ColorIcon;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Image;
+
+import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.ContainerListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -76,8 +76,8 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
         myColorButton = new JButton();
         myWidthButton = new JButton();
         myColorIcon = new ColorIcon(Color.BLACK);
-
         myShapeCreator = theShapeCreator;
+        myShapeCreator.setColor(Color.BLACK);
         setupComponents();
         layoutComponents();
         addListeners();
@@ -127,8 +127,11 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
 
         myWidthButton.addActionListener(theEvent -> setMyWidthButton());
 
+        myColorButton.addActionListener(theEvent -> setColorChooser());
+
 
     }
+
 
     private void setMyWidthButton() {
 
@@ -145,9 +148,24 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
             myShapeCreator.setWidth((int) selectedValue);
         }
 
-        LOGGER.info(() -> String.valueOf(myShapeCreator.getWidth()));
+        LOGGER.info(() -> "Line Width: " + myShapeCreator.getWidth());
 
     }
+
+    public void setColorChooser() {
+        final JColorChooser colorChooser = new JColorChooser();
+
+        final Color color = JColorChooser.showDialog(null, "Pick a color!", myShapeCreator.getColor());
+
+        if (color != null) {
+            myShapeCreator.setColor(color);
+        }
+        LOGGER.info(() -> "Color: " + myShapeCreator.getColor());
+
+    }
+
+
+
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
