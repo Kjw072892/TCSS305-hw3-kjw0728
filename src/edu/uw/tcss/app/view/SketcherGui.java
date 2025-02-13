@@ -107,6 +107,7 @@ public class SketcherGui extends JPanel {
                 new ArrayList<>();
         try {
             final File file = new File(
+                    //TODO:Remove this line when finished with project
                     "assets/defaultShapes/initialShapes1.txt");
             final Scanner scanner = new Scanner(file);
 

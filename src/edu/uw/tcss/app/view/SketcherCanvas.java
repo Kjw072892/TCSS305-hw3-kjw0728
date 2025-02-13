@@ -44,14 +44,11 @@ public class SketcherCanvas extends JPanel implements PropertyChangeListener {
 
     private final List<ColorfulShape> myExistingShapes;
 
-    private final ShapeCreatorControls myShapeCreator;
-
     /**
      * Constructs the Canvas to sketch on.
      */
     public SketcherCanvas(final ShapeCreatorControls theShapeCreator) {
         super();
-        myShapeCreator = theShapeCreator;
 
         myCurrentShape = new ColorfulShape(OFF_SCREEN, Color.BLACK, 0);
         myExistingShapes = new ArrayList<>();

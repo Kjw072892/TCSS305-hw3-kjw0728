@@ -8,15 +8,18 @@ import edu.uw.tcss.app.view.icons.ColorIcon;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.ContainerListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.Serial;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
 
 /**
  * The toolbar for the Sketcher application.
@@ -42,6 +45,8 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
 
     private static final int IC_SIZE = 24;
 
+    private static final Logger LOGGER = Logger.getLogger(SketcherToolBar.class.getName());
+
     private final ShapeCreatorControls myShapeCreator;
 
     private final JButton myClearButton;
@@ -53,6 +58,11 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
     private final JButton myWidthButton;
 
     private final ColorIcon myColorIcon;
+
+    //Set level to Level.OFF to turn off the logger or Level.ALL to turn on
+    //TODO: Be sure to turn this off before turning in
+    static {
+        LOGGER.setLevel(Level.ALL); }
 
     /**
      * Constructs the toolbar for the Sketcher application.
@@ -111,7 +121,31 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
 
     private void addListeners() {
 
+        myClearButton.addActionListener(theEvent -> myShapeCreator.clear());
 
+        myUndoButton.addActionListener(theEvent -> myShapeCreator.undo());
+
+        myWidthButton.addActionListener(theEvent -> setMyWidthButton());
+
+
+    }
+
+    private void setMyWidthButton() {
+
+        final JOptionPane pane = new JOptionPane();
+        final Object[] possibleValues = new Object[MAX_WIDTH];
+        for (int i = 0; i < MAX_WIDTH; i++) {
+            possibleValues[i] = MIN_WIDTH + i;
+        }
+        final Object selectedValue = JOptionPane.showInputDialog(null,
+                "Choose the line width!", "Line Width Selection",
+                JOptionPane.QUESTION_MESSAGE, null, possibleValues, possibleValues[0]);
+
+        if (selectedValue != null) {
+            myShapeCreator.setWidth((int) selectedValue);
+        }
+
+        LOGGER.info(() -> String.valueOf(myShapeCreator.getWidth()));
 
     }
 
@@ -122,4 +156,5 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
             myColorIcon.repaint();
         }
     }
+
 }
