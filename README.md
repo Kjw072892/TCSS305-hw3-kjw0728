@@ -18,8 +18,8 @@ This assignment was a bit challenging in the sense that its all new material, an
 familiaraized with the java doc, because the API just gave us the most basic set of instructions, ie instructions on 
 what each method does, the application expected outcome, and naming conventions for the different panels we had 
 instantiate.
-The lectures we recieved was very informative, however it was challenging to try to translate what we learned into 
-our assignment since we are working with many different classes (however we are only working inside 2 classes, 
+The lectures we recieved was very informative, however it was challenging to try to translate what we learned apply 
+it to our assignment since we are working with many different classes (however we are only working inside 2 classes, 
 though this was only realized in hindsight).
 The overall logic of the application wasn't difficult esspecially compared to the logic that was required for 
 assignment 2 "RoadRage"; GUI application was never taught in CSS 143 at Tacoma 
