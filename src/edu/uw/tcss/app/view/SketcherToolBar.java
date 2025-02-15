@@ -63,7 +63,7 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
 
     //Set level to Level.OFF to turn off the logger or Level.ALL to turn on
     static {
-        LOGGER.setLevel(Level.ALL); }
+        LOGGER.setLevel(Level.OFF); }
 
     /**
      * Constructs the toolbar for the Sketcher application.
