@@ -63,7 +63,7 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
 
     //Set level to Level.OFF to turn off the logger or Level.ALL to turn on
     static {
-        LOGGER.setLevel(Level.OFF); }
+        LOGGER.setLevel(Level.ALL); }
 
     /**
      * Constructs the toolbar for the Sketcher application.
@@ -163,8 +163,6 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
 
 
     private void setColorChooser() {
-
-        myShapeCreator.setColor(Color.BLACK);
 
         final JColorChooser colorChooser = new JColorChooser();
 
