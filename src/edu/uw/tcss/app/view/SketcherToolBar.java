@@ -164,8 +164,6 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
 
     private void setColorChooser() {
 
-        myShapeCreator.setColor(Color.BLACK);
-
         final JColorChooser colorChooser = new JColorChooser();
 
         final Color color = JColorChooser.showDialog(null, "Choose a Color",
