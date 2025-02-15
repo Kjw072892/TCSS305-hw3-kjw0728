@@ -5,21 +5,23 @@ import static edu.uw.tcss.app.model.PropChangeEnabledShapeCreatorControls.PROPER
 
 import edu.uw.tcss.app.model.ShapeCreatorControls;
 import edu.uw.tcss.app.view.icons.ColorIcon;
-
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ContainerListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.Serial;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
+
 
 /**
  * The toolbar for the Sketcher application.
@@ -60,9 +62,8 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
     private final ColorIcon myColorIcon;
 
     //Set level to Level.OFF to turn off the logger or Level.ALL to turn on
-    //TODO: Be sure to turn this off before turning in
     static {
-        LOGGER.setLevel(Level.ALL); }
+        LOGGER.setLevel(Level.OFF); }
 
     /**
      * Constructs the toolbar for the Sketcher application.
@@ -77,7 +78,6 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
         myWidthButton = new JButton();
         myColorIcon = new ColorIcon(Color.BLACK);
         myShapeCreator = theShapeCreator;
-        myShapeCreator.setColor(Color.BLACK);
         setupComponents();
         layoutComponents();
         addListeners();
@@ -86,24 +86,33 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
     private void setupComponents() {
         myColorIcon.setColor(myShapeCreator.getColor());
 
-        ImageIcon icon = new ImageIcon(ASSETS_DIR + File.separator + "ic_delete_24x24.png");
+        ImageIcon icon = new ImageIcon(ASSETS_DIR + File.separator
+                + "ic_delete_24x24.png");
+
         Image smallImage = icon.getImage().getScaledInstance(
                 IC_SIZE, -1, java.awt.Image.SCALE_SMOOTH);
+
         myClearButton.setIcon(new ImageIcon(smallImage));
 
         icon = new ImageIcon(ASSETS_DIR + File.separator + "ic_undo_24x24.png");
+
         smallImage = icon.getImage().getScaledInstance(
                 IC_SIZE, -1, java.awt.Image.SCALE_SMOOTH);
+
         myUndoButton.setIcon(new ImageIcon(smallImage));
 
         icon = new ImageIcon(ASSETS_DIR + File.separator + "ic_palette_24x24.png");
+
         smallImage = icon.getImage().getScaledInstance(
                 IC_SIZE, -1, java.awt.Image.SCALE_SMOOTH);
+
         myColorButton.setIcon(new ImageIcon(smallImage));
 
         icon = new ImageIcon(ASSETS_DIR + File.separator + "ic_line_weight_24x24.png");
+
         smallImage = icon.getImage().getScaledInstance(
                 IC_SIZE, -1, java.awt.Image.SCALE_SMOOTH);
+
         myWidthButton.setIcon(new ImageIcon(smallImage));
     }
 
@@ -152,19 +161,23 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
 
     }
 
-    public void setColorChooser() {
+
+    private void setColorChooser() {
+
+        myShapeCreator.setColor(Color.BLACK);
+
         final JColorChooser colorChooser = new JColorChooser();
 
-        final Color color = JColorChooser.showDialog(null, "Pick a color!", myShapeCreator.getColor());
+        final Color color = JColorChooser.showDialog(null, "Choose a Color",
+                myShapeCreator.getColor());
 
         if (color != null) {
             myShapeCreator.setColor(color);
         }
+
         LOGGER.info(() -> "Color: " + myShapeCreator.getColor());
 
     }
-
-
 
 
     @Override
@@ -174,5 +187,6 @@ public class SketcherToolBar extends JToolBar implements PropertyChangeListener 
             myColorIcon.repaint();
         }
     }
+
 
 }

@@ -17,6 +17,10 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+
+
+
+
 /**
  * Graphical user interface for the sketch pad application. Holds and manages
  * all the subcomponents.
@@ -47,6 +51,8 @@ public class SketcherGui extends JPanel {
     private final SketcherCanvas myPaintPanel;
 
     private final SketcherToolBar myToolBar;
+
+
 
     /**
      * Creates and sets-up a sketch pad GUI to be displayed.
@@ -107,8 +113,8 @@ public class SketcherGui extends JPanel {
                 new ArrayList<>();
         try {
             final File file = new File(
-                    //TODO:Remove this line when finished with project
-                    "assets/defaultShapes/initialShapes1.txt");
+
+                    "");
             final Scanner scanner = new Scanner(file);
 
             while (scanner.hasNext()) {
@@ -132,5 +138,8 @@ public class SketcherGui extends JPanel {
         }
         return shapes;
     }
+
+
+
 
 }

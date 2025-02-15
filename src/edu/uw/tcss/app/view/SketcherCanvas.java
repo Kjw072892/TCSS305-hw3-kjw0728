@@ -14,13 +14,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
+
 
 
 /**
@@ -38,11 +43,22 @@ public class SketcherCanvas extends JPanel implements PropertyChangeListener {
 
     private static final Dimension SIZE = new Dimension(800, 600);
 
-    private static final Shape OFF_SCREEN = new Rectangle2D.Double(-10_000, -10_000, 0, 0);
+    private static final Shape OFF_SCREEN =
+            new Rectangle2D.Double(-10_000, -10_000, 0, 0);
+
+    private static final Logger LOGGER = Logger.getLogger(SketcherCanvas.class.getName());
 
     private ColorfulShape myCurrentShape;
 
     private final List<ColorfulShape> myExistingShapes;
+
+    private final ShapeCreatorControls myShapeCreator;
+
+     //Set level to Level.OFF to turn off the logger or Level.ALL to turn on
+    static {
+        LOGGER.setLevel(Level.OFF); }
+
+
 
     /**
      * Constructs the Canvas to sketch on.
@@ -52,6 +68,8 @@ public class SketcherCanvas extends JPanel implements PropertyChangeListener {
 
         myCurrentShape = new ColorfulShape(OFF_SCREEN, Color.BLACK, 0);
         myExistingShapes = new ArrayList<>();
+
+        myShapeCreator = theShapeCreator;
 
         setupComponents();
         addListeners();
@@ -64,9 +82,11 @@ public class SketcherCanvas extends JPanel implements PropertyChangeListener {
     }
 
     private void addListeners() {
-
-
+        this.addMouseMotionListener(new MyMouseAdaptor(myShapeCreator));
+        this.addMouseListener(new MyMouseAdaptor(myShapeCreator));
     }
+
+
 
     @Override
     public void paintComponent(final Graphics theGraphics) {
@@ -106,6 +126,7 @@ public class SketcherCanvas extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
+
         if (PROPERTY_CURRENT_SHAPE.equals(theEvent.getPropertyName())) {
             myCurrentShape =  theEvent.getNewValue() == null
                     ? new ColorfulShape(OFF_SCREEN, Color.BLACK, 0)
@@ -118,5 +139,63 @@ public class SketcherCanvas extends JPanel implements PropertyChangeListener {
             repaint();
         }
     }
+
+    private static final class MyMouseAdaptor extends MouseAdapter {
+
+        private final ShapeCreatorControls myShapeCreator;
+
+        MyMouseAdaptor(final ShapeCreatorControls theShapeCreator) {
+            super();
+            myShapeCreator = theShapeCreator;
+        }
+
+
+
+        @Override
+        public void mouseClicked(final MouseEvent theEvent) {
+
+            myShapeCreator.startDrawing(theEvent.getX(), theEvent.getY());
+            myShapeCreator.continueDrawing(theEvent.getX(), theEvent.getY());
+            myShapeCreator.endDrawing(theEvent.getX(), theEvent.getY());
+
+            LOGGER.info(() -> String.valueOf(theEvent.getPoint()));
+
+
+        }
+
+        @Override
+        public void mousePressed(final MouseEvent theEvent) {
+
+            myShapeCreator.startDrawing(theEvent.getX(), theEvent.getY());
+
+            LOGGER.info(() -> String.valueOf(theEvent.getPoint()));
+
+        }
+
+        @Override
+        public void mouseReleased(final MouseEvent theEvent) {
+            myShapeCreator.endDrawing(theEvent.getX(), theEvent.getY());
+
+            LOGGER.info(() -> String.valueOf(theEvent.getPoint()));
+
+        }
+
+        @Override
+        public void mouseDragged(final MouseEvent theEvent) {
+            myShapeCreator.startDrawing(theEvent.getX(), theEvent.getY());
+            myShapeCreator.continueDrawing(theEvent.getX(), theEvent.getY());
+
+            LOGGER.info(() -> String.valueOf(theEvent.getPoint()));
+
+        }
+
+
+
+
+    }
+
+
+
+
 
 }
