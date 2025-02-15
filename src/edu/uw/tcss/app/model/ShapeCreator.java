@@ -96,8 +96,8 @@ public class ShapeCreator implements PropChangeEnabledShapeCreatorControls {
      * When the creation of a shape is continued with this method, all interested parties will be
      * notified of the action via PROPERTY_CURRENT_SHAPE.
      *
-     * @param theX x coordinate of the last point of the current shape
-     * @param theY y coordinate of the last point of the current shape
+     * @param theX x-coordinate from the last point of the current shape
+     * @param theY y-coordinate from the last point of the current shape
      */
     @Override
     public void continueDrawing(final int theX, final int theY) {
